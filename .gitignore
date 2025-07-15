@@ -1,0 +1,102 @@
+## Rider
+.idea/
+*.sln.iml
+
+## Build results
+bin/
+obj/
+
+**/obj/
+**/bin/
+
+## User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+## VS Code
+.vscode/
+
+## Build folders (MSBuild, CMake, etc.)
+[Bb]in/
+[Oo]bj/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotCover
+.idea/.dotCover
+
+## Logs
+*.log
+
+## Visual Studio
+.vs/
+*.dbmdl
+*.psess
+*.vsp
+*.vspx
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.sbr
+*.sdf
+*.cachefile
+*.VC.db
+
+## Others
+_ReSharper*/
+*.resharper
+*.DotSettings.user
+
+# Rider's workspace history
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+
+# JetBrains Rider caches
+.idea/.idea.IC/
+.idea/.idea.*.xml
+
+# Rider Caches (safe to ignore)
+.idea/caches/
+.idea/index/
+.idea/modules.xml
+
+# Paket dependency manager
+.paket/
+paket-files/
+
+# NuGet packages
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Nuke build
+.nuke/
+
+# Build output
+*.dll
+*.exe
+*.app
+*.so
+*.dylib
+*.lib
+*.a
+
+# Rider code inspections
+.idea/.idea_modules/
+.idea/inspectionProfiles/
+
+# Test results
+TestResults/
+
+# Coverage
+coverage/
+*.coverage
+*.coveragexml
+
