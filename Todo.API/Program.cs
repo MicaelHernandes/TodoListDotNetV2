@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Todo.Infrastructure.Persistence;
+using Todo.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=/tmp/app.db"));
+builder.Services.AddIoC(builder.Configuration);
 
 var app = builder.Build();
 
