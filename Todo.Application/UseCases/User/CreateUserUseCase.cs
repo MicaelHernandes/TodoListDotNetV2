@@ -1,5 +1,6 @@
 using Todo.Application.DTOs.Request.User;
 using Todo.Application.DTOs.Response;
+using Todo.Application.Exceptions.User;
 using Todo.Application.Services;
 using Todo.Domain.Repositories;
 
@@ -18,6 +19,11 @@ public class CreateUserUseCase
 
     public async Task<UserResponse> Execute(CreateUserRequest request)
     {
+        var existsUser = await _userRepository.FindByEmail(request.Email);
+        if (existsUser != null)
+        {
+            throw new UserAlreadyExistsException($"Já existe um usuário com o e-mail {request.Email}.");
+        }
         var hashedPassword = _passwordService.Hash(request.Password);
         var user = new Domain.Entities.User(request.Name, request.Email, hashedPassword);
         var newUser = await _userRepository.Create(user);
