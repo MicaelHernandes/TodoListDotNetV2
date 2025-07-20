@@ -8,9 +8,9 @@ using Todo.Application.UseCases.User;
 
 namespace Todo.API.Controllers
 {
-    [Route("api/user")]
+    [Route("api/v1/auth")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AuthController : ControllerBase
     {
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
