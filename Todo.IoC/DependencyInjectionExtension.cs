@@ -14,6 +14,7 @@ public static class DependencyInjectionExtension
         AddRepositories(services, configuration);
         AddServices(services, configuration);
         AddUseCases(services, configuration);
+        AddTokenGenerator(services, configuration);
     }
 
     public static void AddRepositories(this IServiceCollection services, IConfiguration configuration)
@@ -30,5 +31,10 @@ public static class DependencyInjectionExtension
     public static void AddUseCases(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<CreateUserUseCase>();
+    }
+
+    public static void AddTokenGenerator(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
     }
 }
