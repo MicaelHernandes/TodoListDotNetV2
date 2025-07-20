@@ -30,7 +30,7 @@ public class TaskRepository : ITaskRepository
 
     public async Task<bool> Delete(Task task)
     {
-        _context.Tasks.Remove(task);
+        task.SoftDelete();
         await _context.SaveChangesAsync();
         return true;
     }
