@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TaskStatus = Todo.Domain.Enums.TaskStatus;
 
 namespace Todo.Domain.Entities;
 
@@ -12,10 +13,10 @@ public class Task
     public int TotalPomodori { get; private set; }
     public int PomodoroValue { get; private set; }
     public int CompletedPomodori { get; private set; }
-    public Enums.TaskStatus Status { get; private set; }
+    public Enums.TaskStatus Status { get; private set; } = TaskStatus.Pending;
     public DateTime TaskDate { get; private set; }
     public DateTime DueDate { get; private set; }
-    public DateTime? AssignedAt { get; private set; }
+    public DateTime? AssignedAt { get; private set; } = DateTime.Now;
     public DateTime? CompletedAt { get; private set; }
     
     protected Task() { }
