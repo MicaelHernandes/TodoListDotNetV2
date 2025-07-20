@@ -40,4 +40,10 @@ public class TaskRepository : ITaskRepository
             .Where(t => t.UserId == userId)
             .ToListAsync();
     }
+    
+    public async Task<Task> GetById(int taskId)
+    {
+        return await _context.Tasks
+            .FirstOrDefaultAsync(t => t.Id == taskId);
+    }
 }
