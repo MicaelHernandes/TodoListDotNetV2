@@ -9,4 +9,5 @@ public interface IUserRepository
     public Task<bool> Delete(User user);
     public Task<User> FindByEmail(string email);
     public Task<User> FindByUsername(string username);
+    public Task<User> FindById(int id);
 }
