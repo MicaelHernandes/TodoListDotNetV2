@@ -20,6 +20,9 @@ namespace Todo.API.Controllers
     {
         
         [HttpGet]
+        [ProducesResponseType(typeof(ApiResponse<List<ListTasksResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> List(
             [FromServices] ListAllUsertaskUseCase useCase
         )
@@ -42,8 +45,9 @@ namespace Todo.API.Controllers
         }
         
         [HttpPost]
-        [ProducesResponseType(typeof(ApiResponse<CreateTaskResponse>),StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<CreateTaskResponse>), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Create(
             [FromServices] CreateUserTaskUseCase useCase,
             [FromBody] CreateTaskRequest request
@@ -66,6 +70,10 @@ namespace Todo.API.Controllers
         }
 
         [HttpGet("{idTask:int}")]
+        [ProducesResponseType(typeof(ApiResponse<ListTasksResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(
             [FromServices] GetTaskUseCase useCase,
             [FromRoute] int idTask
@@ -92,6 +100,11 @@ namespace Todo.API.Controllers
         }
         
         [HttpPut("{idTask:int}")]
+        [ProducesResponseType(typeof(ApiResponse<ListTasksResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Update(
             [FromServices] UpdateTaskUseCase useCase,
             [FromRoute] int idTask,
@@ -123,6 +136,11 @@ namespace Todo.API.Controllers
         }
         
         [HttpPatch("{idTask:int}")]
+        [ProducesResponseType(typeof(ApiResponse<ListTasksResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdatePartial(
             [FromServices] UpdatePartialTaskUseCase useCase,
             [FromRoute] int idTask,
@@ -154,6 +172,11 @@ namespace Todo.API.Controllers
         }
         
         [HttpDelete("{idTask:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Delete(
             [FromServices] DeleteTaskUseCase useCase,
             [FromRoute] int idTask
