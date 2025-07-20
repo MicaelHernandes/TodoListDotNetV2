@@ -12,7 +12,7 @@ namespace Todo.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        [HttpPost]
+        [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> Get(
             [FromServices] CreateUserUseCase useCase,
