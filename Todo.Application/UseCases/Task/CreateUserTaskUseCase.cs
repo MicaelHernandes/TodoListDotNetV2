@@ -16,9 +16,9 @@ public class CreateUserTaskUseCase
         _userRepository = userRepository;
     }
 
-    public async Task<CreateTaskResponse> Execute(CreateTaskRequest request, string userEmail)
+    public async Task<CreateTaskResponse> Execute(CreateTaskRequest request, int userId)
     {
-        var user = _userRepository.FindByEmail(userEmail);
+        var user = await _userRepository.FindById(userId);
         if (user == null)
         {
             throw new CreateTaskInvalidParametersException("Usuario não encontrado");

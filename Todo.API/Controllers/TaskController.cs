@@ -28,6 +28,8 @@ namespace Todo.API.Controllers
             {
                 var email = User.FindFirst("email")?.Value;
                 var response = await useCase.Execute(request, email);
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var response = await useCase.Execute(request, userId);
                 return StatusCode(StatusCodes.Status201Created, new ApiResponse<CreateTaskResponse>(response));
             }
             catch (CreateTaskInvalidParametersException ex)
