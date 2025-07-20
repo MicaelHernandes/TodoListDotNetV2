@@ -41,5 +41,27 @@ namespace Todo.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
             }
         }
+        
+        [HttpGet("list")]
+        public async Task<IActionResult> List(
+            [FromServices] ListAllUsertaskUseCase useCase
+            )
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var response = await useCase.ExecuteAsync(userId);
+                return Ok(new ApiResponse<List<ListTasksResponse>>(response));
+                return Ok();
+            }
+            catch (CreateTaskInvalidParametersException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
+            }
+        }
     }
 }
