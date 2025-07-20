@@ -58,4 +58,30 @@ public class Task
     {
         Status = Enums.TaskStatus.Canceled;
     }
+    
+    public void Update(
+        string title,
+        string description,
+        int totalPomodori,
+        int pomodoroValue,
+        TaskStatus status,
+        DateTime taskDate,
+        DateTime dueDate)
+    {
+        Title = title;
+        Description = description;
+        TotalPomodori = totalPomodori;
+        PomodoroValue = pomodoroValue;
+        Status = status;
+        TaskDate = taskDate;
+        DueDate = dueDate;
+        if (status == TaskStatus.Completed)
+        {
+            CompletedAt = DateTime.Now;
+        }
+        else
+        {
+            CompletedAt = null;
+        }
+    }
 }
