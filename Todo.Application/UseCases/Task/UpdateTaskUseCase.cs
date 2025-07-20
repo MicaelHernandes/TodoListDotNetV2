@@ -35,7 +35,7 @@ public class UpdateTaskUseCase
             throw new ForbiddenRequestException("Acesso negado: tarefa pertence a outro usuario!");
         }
         
-        task.Update(request.Title, request.Description, request.TotalPomodori, request.PomodoroValue, request.Status, request.TaskDate, request.DueDate);
+        task.Update(request.Title, request.Description, request.TotalPomodori, request.PomodoroValue, request.CompletedPomodoro, request.Status, request.TaskDate, request.DueDate);
         
         await _taskRepository.Update(task);
         

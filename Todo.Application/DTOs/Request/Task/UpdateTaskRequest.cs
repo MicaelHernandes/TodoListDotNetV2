@@ -20,6 +20,9 @@ public class UpdateTaskRequest
     [Required(ErrorMessage = "O valor do pomodoro é obrigatório.")]
     [Range(10, 60, ErrorMessage = "O valor do pomodoro deve estar entre 10 e 60 minutos.")]
     public int PomodoroValue { get; set; }
+    
+    [Required(ErrorMessage = "O número de pomodoros concluídos é obrigatório.")]
+    public int CompletedPomodoro { get; set; }
 
     [Required(ErrorMessage = "A data da tarefa é obrigatória.")]
     [DataType(DataType.DateTime, ErrorMessage = "A data da tarefa deve estar em um formato válido.")]

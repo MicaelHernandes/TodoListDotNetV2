@@ -64,6 +64,7 @@ public class Task
         string description,
         int totalPomodori,
         int pomodoroValue,
+        int completedPomodori,
         TaskStatus status,
         DateTime taskDate,
         DateTime dueDate)
@@ -72,6 +73,7 @@ public class Task
         Description = description;
         TotalPomodori = totalPomodori;
         PomodoroValue = pomodoroValue;
+        CompletedPomodori = completedPomodori;
         Status = status;
         TaskDate = taskDate;
         DueDate = dueDate;
