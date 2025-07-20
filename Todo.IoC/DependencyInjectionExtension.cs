@@ -37,6 +37,7 @@ public static class DependencyInjectionExtension
         services.AddScoped<CreateUserTaskUseCase>();
         services.AddScoped<ListAllUsertaskUseCase>();
         services.AddScoped<GetTaskUseCase>();
+        services.AddScoped<UpdateTaskUseCase>();
     }
 
     public static void AddTokenGenerator(this IServiceCollection services, IConfiguration configuration)
