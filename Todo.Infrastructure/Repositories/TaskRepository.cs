@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Todo.Domain.Repositories;
 using Todo.Infrastructure.Persistence;
 using Task = Todo.Domain.Entities.Task;
@@ -29,8 +30,20 @@ public class TaskRepository : ITaskRepository
 
     public async Task<bool> Delete(Task task)
     {
-        _context.Tasks.Remove(task);
+        task.SoftDelete();
         await _context.SaveChangesAsync();
         return true;
+    }
+    public async Task<ICollection<Task>> GetAllByUserId(int userId)
+    {
+        return await _context.Tasks
+            .Where(t => t.UserId == userId)
+            .ToListAsync();
+    }
+    
+    public async Task<Task> GetById(int taskId)
+    {
+        return await _context.Tasks
+            .FirstOrDefaultAsync(t => t.Id == taskId);
     }
 }

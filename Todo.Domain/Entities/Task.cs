@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using TaskStatus = Todo.Domain.Enums.TaskStatus;
 
 namespace Todo.Domain.Entities;
 
@@ -12,11 +13,12 @@ public class Task
     public int TotalPomodori { get; private set; }
     public int PomodoroValue { get; private set; }
     public int CompletedPomodori { get; private set; }
-    public Enums.TaskStatus Status { get; private set; }
+    public Enums.TaskStatus Status { get; private set; } = TaskStatus.Pending;
     public DateTime TaskDate { get; private set; }
     public DateTime DueDate { get; private set; }
-    public DateTime? AssignedAt { get; private set; }
+    public DateTime? AssignedAt { get; private set; } = DateTime.Now;
     public DateTime? CompletedAt { get; private set; }
+    public bool IsDeleted { get; private set; } = false;
     
     protected Task() { }
     
@@ -56,5 +58,75 @@ public class Task
     public void Cancel()
     {
         Status = Enums.TaskStatus.Canceled;
+    }
+    
+    public void Update(
+        string title,
+        string description,
+        int totalPomodori,
+        int pomodoroValue,
+        int completedPomodori,
+        TaskStatus status,
+        DateTime taskDate,
+        DateTime dueDate)
+    {
+        Title = title;
+        Description = description;
+        TotalPomodori = totalPomodori;
+        PomodoroValue = pomodoroValue;
+        CompletedPomodori = completedPomodori;
+        Status = status;
+        TaskDate = taskDate;
+        DueDate = dueDate;
+        if (status == TaskStatus.Completed)
+        {
+            CompletedAt = DateTime.Now;
+        }
+        else
+        {
+            CompletedAt = null;
+        }
+    }
+    
+    public void UpdatePartial(
+        string? title = null,
+        string? description = null,
+        int? totalPomodori = null,
+        int? pomodoroValue = null,
+        int? completedPomodori = null,
+        TaskStatus? status = null,
+        DateTime? taskDate = null,
+        DateTime? dueDate = null)
+    {
+        if (title != null)
+            Title = title;
+        if (description != null)
+            Description = description;
+        if (totalPomodori.HasValue)
+            TotalPomodori = totalPomodori.Value;
+        if (pomodoroValue.HasValue)
+            PomodoroValue = pomodoroValue.Value;
+        if (completedPomodori.HasValue)
+            CompletedPomodori = completedPomodori.Value;
+        if (status.HasValue)
+            Status = status.Value;
+        if (taskDate.HasValue)
+            TaskDate = taskDate.Value;
+        if (dueDate.HasValue)
+            DueDate = dueDate.Value;
+        if (status == TaskStatus.Completed)
+            CompletedAt = DateTime.Now;
+        else if (status != null)
+            CompletedAt = null;
+    }
+    
+    public void SoftDelete()
+    {
+        IsDeleted = true;
+    }
+
+    public void Restore()
+    {
+        IsDeleted = false;
     }
 }
