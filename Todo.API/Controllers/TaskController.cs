@@ -152,6 +152,36 @@ namespace Todo.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
             }
         }
+        
+        [HttpDelete("{idTask:int}")]
+        public async Task<IActionResult> Delete(
+            [FromServices] DeleteTaskUseCase useCase,
+            [FromRoute] int idTask
+        )
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var response = await useCase.ExecuteAsync(idTask, userId);
+                return StatusCode(StatusCodes.Status204NoContent, new ApiResponse<bool>(response));
+            }
+            catch (NotFoundException ex)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new ApiResponse<string>(ex.Message));
+            }
+            catch (ForbiddenRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, new ApiResponse<string>(ex.Message));
+            }
+            catch (CreateTaskInvalidParametersException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
+            }
+        }
     }
     
 }
