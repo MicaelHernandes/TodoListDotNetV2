@@ -18,7 +18,30 @@ namespace Todo.API.Controllers
     [Authorize]
     public class TaskController : ControllerBase
     {
-        [HttpPost("create")]
+        
+        [HttpGet]
+        public async Task<IActionResult> List(
+            [FromServices] ListAllUsertaskUseCase useCase
+        )
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var response = await useCase.ExecuteAsync(userId);
+                return Ok(new ApiResponse<List<ListTasksResponse>>(response));
+                return Ok();
+            }
+            catch (CreateTaskInvalidParametersException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
+            }
+        }
+        
+        [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<CreateTaskResponse>),StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create(
@@ -31,28 +54,6 @@ namespace Todo.API.Controllers
                 var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 var response = await useCase.Execute(request, userId);
                 return StatusCode(StatusCodes.Status201Created, new ApiResponse<CreateTaskResponse>(response));
-            }
-            catch (CreateTaskInvalidParametersException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
-            }
-        }
-        
-        [HttpGet("list")]
-        public async Task<IActionResult> List(
-            [FromServices] ListAllUsertaskUseCase useCase
-            )
-        {
-            try
-            {
-                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                var response = await useCase.ExecuteAsync(userId);
-                return Ok(new ApiResponse<List<ListTasksResponse>>(response));
-                return Ok();
             }
             catch (CreateTaskInvalidParametersException ex)
             {
