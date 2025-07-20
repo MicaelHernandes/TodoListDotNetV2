@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,7 @@ using Todo.Application.UseCases.Task;
 
 namespace Todo.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/tasks")]
     [ApiController]
     [Authorize]
     public class TaskController : ControllerBase
@@ -26,8 +27,6 @@ namespace Todo.API.Controllers
         {
             try
             {
-                var email = User.FindFirst("email")?.Value;
-                var response = await useCase.Execute(request, email);
                 var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 var response = await useCase.Execute(request, userId);
                 return StatusCode(StatusCodes.Status201Created, new ApiResponse<CreateTaskResponse>(response));
