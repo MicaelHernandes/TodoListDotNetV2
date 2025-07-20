@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Todo.Application.Services;
+using Todo.Application.UseCases.Task;
 using Todo.Application.UseCases.User;
 using Todo.Domain.Repositories;
 using Todo.Infrastructure.Auth;
@@ -33,6 +34,7 @@ public static class DependencyInjectionExtension
     {
         services.AddScoped<CreateUserUseCase>();
         services.AddScoped<UserAuthUseCase>();
+        services.AddScoped<CreateUserTaskUseCase>();
     }
 
     public static void AddTokenGenerator(this IServiceCollection services, IConfiguration configuration)
