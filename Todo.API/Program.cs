@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Todo.Infrastructure.Persistence;
 using Todo.IoC;
 
@@ -12,7 +13,43 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Todo API",
+        Version = "v1"
+    });
+    
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Insira o token JWT no formato: Bearer {seu token}",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT"
+    };
+
+    c.AddSecurityDefinition("Bearer", securityScheme);
+    
+    var securityRequirement = new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    };
+
+    c.AddSecurityRequirement(securityRequirement);
+});
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=/tmp/app.db"));
 builder.Services.AddIoC(builder.Configuration);
 
