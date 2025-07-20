@@ -18,6 +18,7 @@ public class Task
     public DateTime DueDate { get; private set; }
     public DateTime? AssignedAt { get; private set; } = DateTime.Now;
     public DateTime? CompletedAt { get; private set; }
+    public bool IsDeleted { get; private set; } = false;
     
     protected Task() { }
     
@@ -117,5 +118,15 @@ public class Task
             CompletedAt = DateTime.Now;
         else if (status != null)
             CompletedAt = null;
+    }
+    
+    public void SoftDelete()
+    {
+        IsDeleted = true;
+    }
+
+    public void Restore()
+    {
+        IsDeleted = false;
     }
 }

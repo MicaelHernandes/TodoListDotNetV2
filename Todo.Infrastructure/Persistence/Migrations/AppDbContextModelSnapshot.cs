@@ -39,6 +39,9 @@ namespace Todo.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("PomodoroValue")
                         .HasColumnType("INTEGER");
 
