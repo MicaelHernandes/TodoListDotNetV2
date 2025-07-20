@@ -90,5 +90,37 @@ namespace Todo.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
             }
         }
+        
+        [HttpPut("{idTask:int}")]
+        public async Task<IActionResult> Update(
+            [FromServices] UpdateTaskUseCase useCase,
+            [FromRoute] int idTask,
+            [FromBody] UpdateTaskRequest request
+        )
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+                var response = await useCase.Execute(idTask, request, userId);
+                return StatusCode(StatusCodes.Status200OK, new ApiResponse<ListTasksResponse>(response));
+            }
+            catch (NotFoundException ex)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new ApiResponse<string>(ex.Message));
+            }
+            catch (ForbiddenRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, new ApiResponse<string>(ex.Message));
+            }
+            catch (CreateTaskInvalidParametersException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
+            }
+        }
     }
+    
 }
