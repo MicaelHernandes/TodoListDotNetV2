@@ -84,4 +84,36 @@ public class Task
             CompletedAt = null;
         }
     }
+    
+    public void UpdatePartial(
+        string? title = null,
+        string? description = null,
+        int? totalPomodori = null,
+        int? pomodoroValue = null,
+        int? completedPomodori = null,
+        TaskStatus? status = null,
+        DateTime? taskDate = null,
+        DateTime? dueDate = null)
+    {
+        if (title != null)
+            Title = title;
+        if (description != null)
+            Description = description;
+        if (totalPomodori.HasValue)
+            TotalPomodori = totalPomodori.Value;
+        if (pomodoroValue.HasValue)
+            PomodoroValue = pomodoroValue.Value;
+        if (completedPomodori.HasValue)
+            CompletedPomodori = completedPomodori.Value;
+        if (status.HasValue)
+            Status = status.Value;
+        if (taskDate.HasValue)
+            TaskDate = taskDate.Value;
+        if (dueDate.HasValue)
+            DueDate = dueDate.Value;
+        if (status == TaskStatus.Completed)
+            CompletedAt = DateTime.Now;
+        else if (status != null)
+            CompletedAt = null;
+    }
 }
