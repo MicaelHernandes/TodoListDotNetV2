@@ -18,7 +18,6 @@ namespace Todo.API.Controllers
     [Authorize]
     public class TaskController : ControllerBase
     {
-        
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<List<ListTasksResponse>>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
@@ -27,23 +26,11 @@ namespace Todo.API.Controllers
             [FromServices] ListAllUsertaskUseCase useCase
         )
         {
-            try
-            {
-                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                var response = await useCase.ExecuteAsync(userId);
-                return Ok(new ApiResponse<List<ListTasksResponse>>(response));
-                return Ok();
-            }
-            catch (CreateTaskInvalidParametersException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
-            }
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = await useCase.ExecuteAsync(userId);
+            return Ok(new ApiResponse<List<ListTasksResponse>>(response));
         }
-        
+
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<CreateTaskResponse>), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status400BadRequest)]
@@ -51,22 +38,11 @@ namespace Todo.API.Controllers
         public async Task<IActionResult> Create(
             [FromServices] CreateUserTaskUseCase useCase,
             [FromBody] CreateTaskRequest request
-            )
+        )
         {
-            try
-            {
-                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                var response = await useCase.Execute(request, userId);
-                return StatusCode(StatusCodes.Status201Created, new ApiResponse<CreateTaskResponse>(response));
-            }
-            catch (CreateTaskInvalidParametersException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
-            }
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = await useCase.Execute(request, userId);
+            return StatusCode(StatusCodes.Status201Created, new ApiResponse<CreateTaskResponse>(response));
         }
 
         [HttpGet("{idTask:int}")]
@@ -77,28 +53,13 @@ namespace Todo.API.Controllers
         public async Task<IActionResult> Get(
             [FromServices] GetTaskUseCase useCase,
             [FromRoute] int idTask
-            )
+        )
         {
-            try
-            {
-                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                var response = await useCase.Execute(idTask, userId);
-                return StatusCode(StatusCodes.Status200OK,new ApiResponse<ListTasksResponse>(response));
-            }
-            catch (NotFoundException ex)
-            {
-                return StatusCode(StatusCodes.Status404NotFound, new ApiResponse<string>(ex.Message));
-            }
-            catch (ForbiddenRequestException ex)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, new ApiResponse<string>(ex.Message));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
-            }
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = await useCase.Execute(idTask, userId);
+            return StatusCode(StatusCodes.Status200OK, new ApiResponse<ListTasksResponse>(response));
         }
-        
+
         [HttpPut("{idTask:int}")]
         [ProducesResponseType(typeof(ApiResponse<ListTasksResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status404NotFound)]
@@ -111,30 +72,11 @@ namespace Todo.API.Controllers
             [FromBody] UpdateTaskRequest request
         )
         {
-            try
-            {
-                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                var response = await useCase.Execute(idTask, request, userId);
-                return StatusCode(StatusCodes.Status200OK, new ApiResponse<ListTasksResponse>(response));
-            }
-            catch (NotFoundException ex)
-            {
-                return StatusCode(StatusCodes.Status404NotFound, new ApiResponse<string>(ex.Message));
-            }
-            catch (ForbiddenRequestException ex)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, new ApiResponse<string>(ex.Message));
-            }
-            catch (CreateTaskInvalidParametersException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
-            }
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = await useCase.Execute(idTask, request, userId);
+            return StatusCode(StatusCodes.Status200OK, new ApiResponse<ListTasksResponse>(response));
         }
-        
+
         [HttpPatch("{idTask:int}")]
         [ProducesResponseType(typeof(ApiResponse<ListTasksResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status404NotFound)]
@@ -147,30 +89,11 @@ namespace Todo.API.Controllers
             [FromBody] UpdatePartialTaskRequest request
         )
         {
-            try
-            {
-                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                var response = await useCase.Execute(idTask, request, userId);
-                return StatusCode(StatusCodes.Status200OK, new ApiResponse<ListTasksResponse>(response));
-            }
-            catch (NotFoundException ex)
-            {
-                return StatusCode(StatusCodes.Status404NotFound, new ApiResponse<string>(ex.Message));
-            }
-            catch (ForbiddenRequestException ex)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, new ApiResponse<string>(ex.Message));
-            }
-            catch (CreateTaskInvalidParametersException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
-            }
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = await useCase.Execute(idTask, request, userId);
+            return StatusCode(StatusCodes.Status200OK, new ApiResponse<ListTasksResponse>(response));
         }
-        
+
         [HttpDelete("{idTask:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(ApiResponse<string>), StatusCodes.Status404NotFound)]
@@ -182,29 +105,9 @@ namespace Todo.API.Controllers
             [FromRoute] int idTask
         )
         {
-            try
-            {
-                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-                var response = await useCase.ExecuteAsync(idTask, userId);
-                return StatusCode(StatusCodes.Status204NoContent, new ApiResponse<bool>(response));
-            }
-            catch (NotFoundException ex)
-            {
-                return StatusCode(StatusCodes.Status404NotFound, new ApiResponse<string>(ex.Message));
-            }
-            catch (ForbiddenRequestException ex)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, new ApiResponse<string>(ex.Message));
-            }
-            catch (CreateTaskInvalidParametersException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
-            }
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var response = await useCase.ExecuteAsync(idTask, userId);
+            return StatusCode(StatusCodes.Status204NoContent, new ApiResponse<bool>(response));
         }
     }
-    
 }

@@ -17,21 +17,10 @@ namespace Todo.API.Controllers
         public async Task<IActionResult> Get(
             [FromServices] CreateUserUseCase useCase,
             [FromBody] CreateUserRequest request
-            )
+        )
         {
-            try
-            {
-                var result = await useCase.Execute(request);
-                return StatusCode(StatusCodes.Status201Created, new ApiResponse<UserResponse>(result));
-            }
-            catch (UserAlreadyExistsException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<string>(ex.Message));
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(e.Message));
-            }
+            var result = await useCase.Execute(request);
+            return StatusCode(StatusCodes.Status201Created, new ApiResponse<UserResponse>(result));
         }
 
         [HttpPost("login")]
@@ -40,20 +29,8 @@ namespace Todo.API.Controllers
             [FromBody] UserAuthRequest request
         )
         {
-            try
-            {
-                var result = await useCase.Execute(request);
-                return StatusCode(StatusCodes.Status200OK, new ApiResponse<UserAuthResponse>(result));
-            }
-            catch (AuthUserInvalidCredentialsException ex)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, new ApiResponse<AuthUserInvalidCredentialsException>(ex.Message));
-            }
-            catch (Exception c)
-            {
-                Console.WriteLine($"Erro ao autenticar usuario: {c.Message}");
-                return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<string>(c.Message));
-            }
+            var result = await useCase.Execute(request);
+            return StatusCode(StatusCodes.Status200OK, new ApiResponse<UserAuthResponse>(result));
         }
     }
 }
